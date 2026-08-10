@@ -69,17 +69,14 @@ contactForm.addEventListener('submit', async (e) => {
 const customerForm = document.querySelector('#customer-form');
 
 if (customerForm) {
-  customerForm.addEventListener('submit', async (e) => {
+  customerForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const status = document.querySelector('#customer-status');
-    const formData = new FormData(customerForm);
 
-    const customer = {
-      full_name: formData.get('full_name'),
-      phone: formData.get('phone'),
-      address: formData.get('address')
-    };
+    const fullName = customerForm.querySelector('[name="full_name"]').value.trim();
+    const phone = customerForm.querySelector('[name="phone"]').value.trim();
+    const address = customerForm.querySelector('[name="address"]').value.trim();
 
     status.textContent = 'Registering...';
 
@@ -94,22 +91,29 @@ if (customerForm) {
             'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify(customer)
+          body: JSON.stringify({
+            full_name: fullName,
+            phone: phone,
+            address: address
+          })
         }
       );
 
       if (!response.ok) {
-        throw new Error(await response.text());
+        const error = await response.text();
+        console.error('Supabase error:', error);
+        status.textContent = 'Registration failed: ' + error;
+        return;
       }
 
       status.textContent =
         'Registration successful! Your customer account has been created.';
+
       customerForm.reset();
 
     } catch (error) {
-      console.error(error);
-      status.textContent =
-        'Registration failed. Please try again.';
+      console.error('Connection error:', error);
+      status.textContent = 'Registration failed: ' + error.message;
     }
   });
 }
