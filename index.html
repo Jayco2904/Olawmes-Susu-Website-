@@ -123,6 +123,37 @@
 
       <p id="customer-status" class="form-status"></p>
     </form>
+    <section id="savings">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">SAVINGS</p>
+      <h2>Record a Customer's Savings</h2>
+    </div>
+
+    <form id="savings-form">
+      <label>
+        Customer ID
+        <input type="number" name="customer_id" required>
+      </label>
+
+      <label>
+        Amount Saved (₵)
+        <input type="number" name="amount" step="0.01" min="0.01" required>
+      </label>
+
+      <label>
+        Notes
+        <input type="text" name="notes">
+      </label>
+
+      <button class="btn primary" type="submit">
+        Record Savings
+      </button>
+
+      <p id="savings-status" class="form-status"></p>
+    </form>
+  </div>
+</section>
   </div>
 </section>
 
