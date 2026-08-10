@@ -160,10 +160,12 @@
     </div>
 
     <form id="dashboard-form">
-      <label>
-        Customer ID
-        <input type="number" name="customer_id" required>
-      </label>
+     <label>
+  Select Customer
+  <select name="customer_id" id="dashboard-customer" required>
+    <option value="">Loading customers...</option>
+  </select>
+</label>
 
       <button class="btn primary" type="submit">
         View Savings
