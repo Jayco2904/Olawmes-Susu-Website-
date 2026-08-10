@@ -64,6 +64,7 @@ contactForm.addEventListener('submit', async (e) => {
       'Sorry, your message could not be sent. Please try again.';
   }
 });
+
 // Customer registration
 const customerForm = document.querySelector('#customer-form');
 
