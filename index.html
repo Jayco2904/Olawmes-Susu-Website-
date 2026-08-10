@@ -152,6 +152,37 @@
 
       <p id="savings-status" class="form-status"></p>
     </form>
+    <section id="customer-dashboard">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">CUSTOMER ACCOUNT</p>
+      <h2>Check Customer Savings</h2>
+    </div>
+
+    <form id="dashboard-form">
+      <label>
+        Customer ID
+        <input type="number" name="customer_id" required>
+      </label>
+
+      <button class="btn primary" type="submit">
+        View Savings
+      </button>
+
+      <p id="dashboard-status" class="form-status"></p>
+    </form>
+
+    <div id="customer-details" style="display: none;">
+      <h3 id="dashboard-name"></h3>
+      <p id="dashboard-phone"></p>
+      <p><strong>Total Savings: ₵<span id="dashboard-total">0.00</span></strong></p>
+
+      <h3>Savings History</h3>
+
+      <div id="savings-history"></div>
+    </div>
+  </div>
+</section>
   </div>
 </section>
   </div>
