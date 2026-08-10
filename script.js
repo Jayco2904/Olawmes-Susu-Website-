@@ -168,7 +168,6 @@ if (savingsForm) {
   });
 }
 
-
 // Customer savings dashboard
 const dashboardForm = document.querySelector('#dashboard-form');
 
