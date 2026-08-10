@@ -90,8 +90,8 @@ if (customerForm) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'YOUR_SUPABASE_PUBLISHABLE_KEY',
-            'Authorization': 'Bearer YOUR_SUPABASE_PUBLISHABLE_KEY',
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
             'Prefer': 'return=minimal'
           },
           body: JSON.stringify(customer)
