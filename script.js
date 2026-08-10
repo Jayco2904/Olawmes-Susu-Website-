@@ -64,3 +64,51 @@ contactForm.addEventListener('submit', async (e) => {
       'Sorry, your message could not be sent. Please try again.';
   }
 });
+// Customer registration
+const customerForm = document.querySelector('#customer-form');
+
+if (customerForm) {
+  customerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const status = document.querySelector('#customer-status');
+    const formData = new FormData(customerForm);
+
+    const customer = {
+      full_name: formData.get('full_name'),
+      phone: formData.get('phone'),
+      address: formData.get('address')
+    };
+
+    status.textContent = 'Registering...';
+
+    try {
+      const response = await fetch(
+        'https://yjgybbweymrengvysxfa.supabase.co/rest/v1/customers',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'YOUR_SUPABASE_PUBLISHABLE_KEY',
+            'Authorization': 'Bearer YOUR_SUPABASE_PUBLISHABLE_KEY',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(customer)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      status.textContent =
+        'Registration successful! Your customer account has been created.';
+      customerForm.reset();
+
+    } catch (error) {
+      console.error(error);
+      status.textContent =
+        'Registration failed. Please try again.';
+    }
+  });
+}
