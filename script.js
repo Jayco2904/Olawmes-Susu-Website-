@@ -1,62 +1,8 @@
-const SUPABASE_URL = "https://yjgybbweymrengvysxfa.supabase.co";
-const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
-
-const menuBtn = document.querySelector('.menu-btn');
-const nav = document.querySelector('#nav-links');
-
-menuBtn.addEventListener('click', () => {
-  nav.classList.toggle('open');
-});
-
-document.querySelectorAll('#nav-links a').forEach(a => {
-  a.addEventListener('click', () => nav.classList.remove('open'));
-});
-
-document.querySelector('#year').textContent = new Date().getFullYear();
-
-const contactForm = document.querySelector('#contact-form');
-const formStatus = document.querySelector('#form-status');
-
-contactForm.addEventListener('submit', async (e) => {
+const menuBtn=document.querySelector('.menu-btn');
+const nav=document.querySelector('#nav-links');
+menuBtn.addEventListener('click',()=>nav.classList.toggle('open'));
+document.querySelectorAll('#nav-links a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+document.querySelector('#year').textContent=new Date().getFullYear();
+document.querySelector('#contact-form').addEventListener('submit',e=>{
   e.preventDefault();
-
-  const name = contactForm.querySelector('[name="name"]').value.trim();
-  const phone = contactForm.querySelector('[name="phone"]').value.trim();
-  const message = contactForm.querySelector('[name="message"]').value.trim();
-
-  formStatus.textContent = 'Sending...';
-
-  try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/contact_messages`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({
-          name: name,
-          phone: phone,
-          message: message
-        })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Message could not be saved.');
-    }
-
-    formStatus.textContent =
-      'Thank you! Your message has been received. We will contact you soon.';
-
-    contactForm.reset();
-
-  } catch (error) {
-    console.error(error);
-    formStatus.textContent =
-      'Sorry, your message could not be sent. Please try again.';
-  }
-});
+  document.querySelector('#form-status').textContent='Thank you! Your message has been received. We will co
