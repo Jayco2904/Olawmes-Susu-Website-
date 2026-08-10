@@ -117,4 +117,55 @@ if (customerForm) {
     }
   });
 }
+// Savings registration
+const savingsForm = document.querySelector('#savings-form');
+
+if (savingsForm) {
+  savingsForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const status = document.querySelector('#savings-status');
+
+    const customerId = savingsForm.querySelector('[name="customer_id"]').value;
+    const amount = savingsForm.querySelector('[name="amount"]').value;
+    const notes = savingsForm.querySelector('[name="notes"]').value.trim();
+
+    status.textContent = 'Recording savings...';
+
+    try {
+      const response = await fetch(
+        'https://yjgybbweymrengvysxfa.supabase.co/rest/v1/savings',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            customer_id: Number(customerId),
+            amount: Number(amount),
+            notes: notes
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Supabase error:', error);
+        status.textContent = 'Savings failed: ' + error;
+        return;
+      }
+
+      status.textContent = 'Savings recorded successfully!';
+      savingsForm.reset();
+
+    } catch (error) {
+      console.error('Connection error:', error);
+      status.textContent = 'Savings failed: ' + error.message;
+    }
+  });
+}
+
 
