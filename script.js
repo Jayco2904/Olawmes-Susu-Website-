@@ -167,6 +167,8 @@ if (savingsForm) {
     }
   });
 }
+
+
 // Customer savings dashboard
 const dashboardForm = document.querySelector('#dashboard-form');
 
@@ -267,3 +269,200 @@ if (dashboardForm) {
 }
 
 
+// Customer savings dashboard
+const dashboardForm = document.querySelector('#dashboard-form');
+
+if (dashboardForm) {
+  dashboardForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const status = document.querySelector('#dashboard-status');
+    const details = document.querySelector('#customer-details');
+
+    const customerId = dashboardForm
+      .querySelector('[name="customer_id"]')
+      .value;
+
+    status.textContent = 'Loading customer...';
+    details.style.display = 'none';
+
+    try {
+      // Get customer
+      const customerResponse = await fetch(
+        `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/customers?id=eq.${customerId}&select=id,full_name,phone`,
+        {
+          headers: {
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG'
+          }
+        }
+      );
+
+      if (!customerResponse.ok) {
+        throw new Error(await customerResponse.text());
+      }
+
+      const customers = await customerResponse.json();
+
+      if (customers.length === 0) {
+        status.textContent = 'Customer not found.';
+        return;
+      }
+
+      const customer = customers[0];
+
+      // Get savings
+      const savingsResponse = await fetch(
+        `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/savings?customer_id=eq.${customerId}&select=amount,payment_date,notes&order=payment_date.desc`,
+        {
+          headers: {
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG'
+          }
+        }
+      );
+
+      if (!savingsResponse.ok) {
+        throw new Error(await savingsResponse.text());
+      }
+
+      const savings = await savingsResponse.json();
+
+      const total = savings.reduce(
+        (sum, item) => sum + Number(item.amount),
+        0
+      );
+
+      document.querySelector('#dashboard-name').textContent =
+        customer.full_name;
+
+      document.querySelector('#dashboard-phone').textContent =
+        'Phone: ' + customer.phone;
+
+      document.querySelector('#dashboard-total').textContent =
+        total.toFixed(2);
+
+      const history = document.querySelector('#savings-history');
+
+      if (savings.length === 0) {
+        history.innerHTML = '<p>No savings recorded yet.</p>';
+      } else {
+        history.innerHTML = savings
+          .map(item => `
+            <div class="saving-record">
+              <p><strong>₵${Number(item.amount).toFixed(2)}</strong></p>
+              <p>${new Date(item.payment_date).toLocaleString()}</p>
+              <p>${item.notes || ''}</p>
+            </div>
+          `)
+          .join('');
+      }
+
+      details.style.display = 'block';
+      status.textContent = '';
+
+    } catch (error) {
+      console.error('Dashboard error:', error);
+      status.textContent = 'Could not load customer: ' + error.message;
+    }
+  });
+}
+
+// Customer savings dashboard
+const dashboardForm = document.querySelector('#dashboard-form');
+
+if (dashboardForm) {
+  dashboardForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const status = document.querySelector('#dashboard-status');
+    const details = document.querySelector('#customer-details');
+
+    const customerId = dashboardForm
+      .querySelector('[name="customer_id"]')
+      .value;
+
+    status.textContent = 'Loading customer...';
+    details.style.display = 'none';
+
+    try {
+      // Get customer
+      const customerResponse = await fetch(
+        `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/customers?id=eq.${customerId}&select=id,full_name,phone`,
+        {
+          headers: {
+            'apikey': 'YOUR_ACTUAL_PUBLISHABLE_KEY',
+            'Authorization': 'Bearer YOUR_ACTUAL_PUBLISHABLE_KEY'
+          }
+        }
+      );
+
+      if (!customerResponse.ok) {
+        throw new Error(await customerResponse.text());
+      }
+
+      const customers = await customerResponse.json();
+
+      if (customers.length === 0) {
+        status.textContent = 'Customer not found.';
+        return;
+      }
+
+      const customer = customers[0];
+
+      // Get savings
+      const savingsResponse = await fetch(
+        `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/savings?customer_id=eq.${customerId}&select=amount,payment_date,notes&order=payment_date.desc`,
+        {
+          headers: {
+            'apikey': 'YOUR_ACTUAL_PUBLISHABLE_KEY',
+            'Authorization': 'Bearer YOUR_ACTUAL_PUBLISHABLE_KEY'
+          }
+        }
+      );
+
+      if (!savingsResponse.ok) {
+        throw new Error(await savingsResponse.text());
+      }
+
+      const savings = await savingsResponse.json();
+
+      const total = savings.reduce(
+        (sum, item) => sum + Number(item.amount),
+        0
+      );
+
+      document.querySelector('#dashboard-name').textContent =
+        customer.full_name;
+
+      document.querySelector('#dashboard-phone').textContent =
+        'Phone: ' + customer.phone;
+
+      document.querySelector('#dashboard-total').textContent =
+        total.toFixed(2);
+
+      const history = document.querySelector('#savings-history');
+
+      if (savings.length === 0) {
+        history.innerHTML = '<p>No savings recorded yet.</p>';
+      } else {
+        history.innerHTML = savings
+          .map(item => `
+            <div class="saving-record">
+              <p><strong>₵${Number(item.amount).toFixed(2)}</strong></p>
+              <p>${new Date(item.payment_date).toLocaleString()}</p>
+              <p>${item.notes || ''}</p>
+            </div>
+          `)
+          .join('');
+      }
+
+      details.style.display = 'block';
+      status.textContent = '';
+
+    } catch (error) {
+      console.error('Dashboard error:', error);
+      status.textContent = 'Could not load customer: ' + error.message;
+    }
+  });
+}
