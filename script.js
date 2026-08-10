@@ -265,4 +265,53 @@ if (dashboardForm) {
     }
   });
 }
+// Load customers into the dashboard dropdown
+const dashboardCustomerSelect =
+  document.querySelector('#dashboard-customer');
+
+if (dashboardCustomerSelect) {
+  async function loadDashboardCustomers() {
+    const SUPABASE_KEY = 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG';
+
+    try {
+      const response = await fetch(
+        'https://yjgybbweymrengvysxfa.supabase.co/rest/v1/customers?select=id,full_name,phone&order=full_name.asc',
+        {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      const customers = await response.json();
+
+      dashboardCustomerSelect.innerHTML =
+        '<option value="">Select a customer</option>';
+
+      customers.forEach(customer => {
+        const option = document.createElement('option');
+
+        option.value = customer.id;
+        option.textContent =
+          `${customer.full_name} — ${customer.phone}`;
+
+        dashboardCustomerSelect.appendChild(option);
+      });
+
+    } catch (error) {
+      console.error('Could not load customers:', error);
+
+      dashboardCustomerSelect.innerHTML =
+        '<option value="">Could not load customers</option>';
+    }
+  }
+
+  loadDashboardCustomers();
+}
 
