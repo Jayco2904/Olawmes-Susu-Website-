@@ -391,8 +391,8 @@ if (dashboardForm) {
         `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/customers?id=eq.${customerId}&select=id,full_name,phone`,
         {
           headers: {
-            'apikey': 'YOUR_ACTUAL_PUBLISHABLE_KEY',
-            'Authorization': 'Bearer YOUR_ACTUAL_PUBLISHABLE_KEY'
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG'
           }
         }
       );
@@ -415,8 +415,8 @@ if (dashboardForm) {
         `https://yjgybbweymrengvysxfa.supabase.co/rest/v1/savings?customer_id=eq.${customerId}&select=amount,payment_date,notes&order=payment_date.desc`,
         {
           headers: {
-            'apikey': 'YOUR_ACTUAL_PUBLISHABLE_KEY',
-            'Authorization': 'Bearer YOUR_ACTUAL_PUBLISHABLE_KEY'
+            'apikey': 'sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG',
+            'Authorization': 'Bearer sb_publishable_5_oHI2mPQxy9yG5yYZM8og_HJbJZEnG'
           }
         }
       );
